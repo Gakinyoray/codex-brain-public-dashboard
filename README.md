@@ -1,39 +1,37 @@
 # codex-brain-public-dashboard
 
-Public dashboard for the AI-Native Learning Organization research program.
+AI-Native Learning Organization 研究プログラムの公開ダッシュボードです。
 
-This repository contains only public-safe summaries. It is not the private research workspace, and it must not contain raw conversation logs, private operational notes, customer information, credentials, or unpublished sensitive evidence.
+このリポジトリには、公開してよい概要情報だけを置きます。非公開の研究ワークスペースではありません。会話ログ、非公開運用メモ、顧客情報、認証情報、未公開の機微な証拠を置いてはいけません。
 
-## Public Site
+## 公開サイト
 
-Expected GitHub Pages URL:
+GitHub Pages URL:
 
 https://gakinyoray.github.io/codex-brain-public-dashboard/
 
-If the site is not live yet, enable GitHub Pages for this public repository with GitHub Actions as the source.
+## 公開する情報
 
-## What This Publishes
+- AI-Native Learning Organization の公開可能な概要
+- 公開可能な研究マイルストーン
+- 公開可能な理論マップ
+- 公開可能な進捗要約
+- 公開可能なバックログ分類
+- 公開可能な参考文献と公開ルール
 
-- public overview of AI-Native Learning Organization;
-- public research milestones;
-- public-safe theory map;
-- public-safe progress summary;
-- public-safe backlog categories;
-- publication-oriented references and disclosure rules.
+## 公開してはいけない情報
 
-## What This Must Not Publish
+- private repository の内容の丸写し
+- 生の会話ログ
+- 個人情報
+- 顧客・案件・取引先に関する機密情報
+- 認証情報、トークン、シークレット、APIキー
+- 未公開の機微な証拠
+- 詳細な内部ブロッカー
+- 詳細な商業戦略
 
-- private repository content copied verbatim;
-- raw chat or conversation logs;
-- individual personal data;
-- customer or project-confidential data;
-- credentials, tokens, secrets, or API keys;
-- unpublished sensitive evidence;
-- detailed internal blockers;
-- commercial strategy details.
+## 公開判断ルール
 
-## Disclosure Rule
+迷う情報は公開しない。
 
-When in doubt, do not publish.
-
-See `PUBLIC_DISCLOSURE_POLICY.md`.
+詳細は `PUBLIC_DISCLOSURE_POLICY.md` を参照する。

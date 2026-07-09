@@ -1,36 +1,36 @@
-# Public Disclosure Policy
+# 公開情報ポリシー
 
-## Purpose
+## 目的
 
-This policy defines what may be published in the public AI-Native Learning Organization dashboard.
+このポリシーは、AI-Native Learning Organization の公開ダッシュボードに載せてよい情報を定義する。
 
-The public dashboard is a communication layer, not the source of truth.
+公開ダッシュボードはコミュニケーション層であり、一次情報源ではない。
 
-## Allowed
+## 公開してよい情報
 
-- high-level research purpose;
-- public definitions and conceptual summaries;
-- sanitized milestone labels;
-- public-safe progress categories;
-- public-safe theory components;
-- public references;
-- non-sensitive visual dashboards.
+- 高水準の研究目的
+- 公開可能な定義と概念要約
+- サニタイズ済みのマイルストーン
+- 公開可能な進捗分類
+- 公開可能な理論構成要素
+- 公開参考文献
+- 機微情報を含まないビジュアルダッシュボード
 
-## Not Allowed
+## 公開してはいけない情報
 
-- raw conversation logs;
-- private repository paths or internal file names that reveal non-public structure;
-- personal data;
-- customer, client, partner, or vendor confidential data;
-- credentials, secrets, tokens, or API keys;
-- unpublished evidence that could harm future publication or operations;
-- detailed internal blockers;
-- detailed commercial strategy;
-- security-sensitive operational details.
+- 生の会話ログ
+- 非公開構造を明かす private repository のパスや内部ファイル名
+- 個人情報
+- 顧客、取引先、パートナー、ベンダーに関する機密情報
+- 認証情報、シークレット、トークン、APIキー
+- 将来の論文化や運用に不利益を与える未公開証拠
+- 詳細な内部ブロッカー
+- 詳細な商業戦略
+- セキュリティ上機微な運用詳細
 
-## Review Rule
+## レビュー規則
 
-Before publishing new information, classify it:
+新しい情報を公開する前に、必ず次のいずれかに分類する。
 
 ```text
 public-safe
@@ -38,10 +38,10 @@ needs-redaction
 private-only
 ```
 
-Only `public-safe` information may be committed here.
+このリポジトリにコミットしてよいのは `public-safe` の情報だけである。
 
-## Dashboard Rule
+## ダッシュボード規則
 
-The public dashboard should explain the research program without requiring access to the private workspace.
+公開ダッシュボードは、非公開ワークスペースへのアクセスなしに研究プログラムを理解できるようにする。
 
-It should not pretend to prove results that have not yet been validated.
+検証されていない結果を、検証済みであるかのように見せてはならない。
