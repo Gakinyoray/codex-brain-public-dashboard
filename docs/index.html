@@ -82,6 +82,7 @@
     .badge.research { background: var(--blue-soft); color: var(--blue); border-color: #b8dce5; }
     .badge.caution { background: var(--amber-soft); color: var(--amber); border-color: #e4c999; }
     .badge.blocked { background: var(--red-soft); color: var(--red); border-color: #e4b8c0; }
+    .badge.open { background: var(--gray); color: #52616a; }
     .meta {
       display: grid;
       gap: 8px;
@@ -158,7 +159,7 @@
     }
     .kanban {
       display: grid;
-      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      grid-template-columns: repeat(7, minmax(170px, 1fr));
       gap: 12px;
       overflow-x: auto;
       padding-bottom: 8px;
@@ -217,6 +218,16 @@
     .donut svg { width: min(220px, 100%); height: auto; }
     .notice {
       border-left: 5px solid var(--amber);
+    }
+    .section-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .section-label h2 {
+      margin-bottom: 0;
     }
     @media (max-width: 960px) {
       header, .grid.cols-4, .grid.cols-3, .grid.cols-2, .map {
@@ -320,7 +331,10 @@
     </section>
 
     <section class="section" aria-label="public milestones">
-      <h2>Public Milestone View</h2>
+      <div class="section-label">
+        <h2>1. 全体マイルストーンと達成状況</h2>
+        <span class="badge research">public-safe milestone board</span>
+      </div>
       <div class="timeline">
         <article class="card milestone active"><span class="badge research">M0</span><h3>Research Object</h3><p class="small">Define the theory boundary and research question.</p></article>
         <article class="card milestone active"><span class="badge research">M1</span><h3>Constructs</h3><p class="small">Define concepts, boundaries, and non-examples.</p></article>
@@ -330,14 +344,78 @@
       </div>
     </section>
 
+    <section class="section" aria-label="owner-only questions">
+      <div class="section-label">
+        <h2>2. Product Owner にしか判断できない問い</h2>
+        <span class="badge blocked">requires human judgment</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Question</th><th>Public-safe reason</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>POQ-01</td><td>Principal Manager の権限境界を承認・修正・却下するか</td><td>AI側が自分の監督権限を決めてはならない。</td><td><span class="badge open">open</span></td></tr>
+            <tr><td>POQ-02</td><td>運用Doctrineの現行ドラフトを承認・修正・却下するか</td><td>Doctrine承認は人間の権限である。</td><td><span class="badge open">open</span></td></tr>
+            <tr><td>POQ-03</td><td>AI-Native Learning Organization を研究主目的として確定するか</td><td>研究の射程と公開方針を決める。</td><td><span class="badge open">open</span></td></tr>
+            <tr><td>POQ-04</td><td>開発およびマーケティングを初期実証範囲とするか</td><td>最初の観察対象を決める。</td><td><span class="badge open">open</span></td></tr>
+            <tr><td>POQ-05</td><td>公開・非公開の情報境界をどう定義するか</td><td>公開ダッシュボードに載せられる情報を決める。</td><td><span class="badge open">open</span></td></tr>
+            <tr><td>POQ-06</td><td>論文化・記事化・内部研究のどの公開経路を取るか</td><td>研究成果の出口を決める。</td><td><span class="badge open">open</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="overall backlog">
+      <div class="section-label">
+        <h2>3. 全体バックログ</h2>
+        <span class="badge research">public-safe backlog</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>ID</th><th>Backlog</th><th>Type</th><th>Milestone</th><th>Status</th><th>Priority</th></tr></thead>
+          <tbody>
+            <tr><td>BL-01</td><td>Product Owner 判断問いの整理</td><td>decision</td><td>M0</td><td><span class="badge blocked">blocked</span></td><td>P0</td></tr>
+            <tr><td>BL-02</td><td>構成概念と非例の公開可能な整理</td><td>theory</td><td>M1</td><td><span class="badge research">ready</span></td><td>P0</td></tr>
+            <tr><td>BL-03</td><td>観察データモデルの公開可能な説明</td><td>research</td><td>M3</td><td><span class="badge research">ready</span></td><td>P0</td></tr>
+            <tr><td>BL-04</td><td>学習ループ検証サイクルの設計</td><td>validation</td><td>M4</td><td><span class="badge research">ready</span></td><td>P0</td></tr>
+            <tr><td>BL-05</td><td>証拠・反証更新ルールの整備</td><td>evidence</td><td>M3-M4</td><td><span class="badge">not-started</span></td><td>P0</td></tr>
+            <tr><td>BL-06</td><td>関連概念との差分整理</td><td>research</td><td>M7</td><td><span class="badge">not-started</span></td><td>P1</td></tr>
+            <tr><td>BL-07</td><td>一般化条件の整理</td><td>research</td><td>M6</td><td><span class="badge">not-started</span></td><td>P2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section" aria-label="next cycle backlog">
+      <div class="section-label">
+        <h2>4. 次の改善サイクルで実施するバックログ</h2>
+        <span class="badge caution">next improvement cycle</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Cycle</th><th>Backlog</th><th>Entry Condition</th><th>Exit Condition</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>CYCLE-01</td><td>BL-01 Product Owner 判断問いの整理</td><td>公開ボードが存在する</td><td>各問いが回答・延期・却下のいずれかになる</td><td><span class="badge blocked">blocked</span></td></tr>
+            <tr><td>CYCLE-01</td><td>BL-02 構成概念と非例の整理</td><td>初期理論構成要素がある</td><td>公開可能な構成概念リストができる</td><td><span class="badge research">ready</span></td></tr>
+            <tr><td>CYCLE-01</td><td>BL-03 観察データモデルの説明</td><td>仮説検証テンプレートがある</td><td>観察項目が公開可能に説明される</td><td><span class="badge research">ready</span></td></tr>
+            <tr><td>CYCLE-01</td><td>BL-04 学習ループ検証サイクル設計</td><td>観察データモデルが準備される</td><td>検証サイクルのステップが定義される</td><td><span class="badge">not-started</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <section class="section" aria-label="public kanban">
-      <h2>Public Hypothesis-Validation Kanban</h2>
+      <div class="section-label">
+        <h2>5. 各バックログの仮説検証プロセス Kanban</h2>
+        <span class="badge research">question → decision</span>
+      </div>
       <div class="kanban">
-        <div class="lane"><h3>Question</h3><div class="ticket"><strong>AI-native boundary</strong>What distinguishes AI-native organization from tool adoption?</div><div class="ticket"><strong>Generalization</strong>Which mechanisms can transfer across knowledge-work settings?</div></div>
-        <div class="lane"><h3>Hypothesis</h3><div class="ticket"><strong>Learning loop</strong>Reusable artifacts should improve later work.</div><div class="ticket"><strong>Memory hierarchy</strong>Layered retrieval should improve context quality.</div></div>
-        <div class="lane"><h3>Operationalize</h3><div class="ticket"><strong>Observation model</strong>Separate fact, interpretation, alternative explanation, and limitation.</div></div>
-        <div class="lane"><h3>Test</h3><div class="ticket"><strong>Pending</strong>Initial validation cycles are not public evidence yet.</div></div>
-        <div class="lane"><h3>Review</h3><div class="ticket"><strong>Strict</strong>Claims require evidence and falsification review before publication.</div></div>
+        <div class="lane"><h3>Question</h3><div class="ticket"><strong>BL-02</strong>構成概念は組織論として区別可能か</div><div class="ticket"><strong>BL-03</strong>観察は証拠として扱えるか</div><div class="ticket"><strong>BL-04</strong>学習ループは検証可能か</div><div class="ticket"><strong>BL-06</strong>既存概念との差分はあるか</div></div>
+        <div class="lane"><h3>Hypothesis</h3><div class="ticket"><strong>BL-02</strong>非例を定義すれば概念境界が明確になる</div><div class="ticket"><strong>BL-03</strong>事実と解釈を分ければ証拠品質が上がる</div><div class="ticket"><strong>BL-04</strong> artifact reuse が初期証拠になる</div></div>
+        <div class="lane"><h3>Operationalize</h3><div class="ticket"><strong>BL-03</strong>観察項目を定義中</div><div class="ticket"><strong>BL-04</strong>BL-03 待ち</div><div class="ticket"><strong>BL-05</strong>BL-04 待ち</div></div>
+        <div class="lane"><h3>Test</h3><div class="ticket"><strong>Pending</strong>公開可能な検証結果はまだない</div></div>
+        <div class="lane"><h3>Review</h3><div class="ticket"><strong>Strict</strong>証拠・反証レビュー前に検証済み扱いしない</div></div>
+        <div class="lane"><h3>Evidence Update</h3><div class="ticket"><strong>Pending</strong>検証サイクル後に更新</div></div>
+        <div class="lane"><h3>Decision</h3><div class="ticket"><strong>Pending</strong>成熟度変更は未実施</div></div>
       </div>
     </section>
 
