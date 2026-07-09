@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AI-Native Learning Organization Public Dashboard</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f7;
+      --panel: #ffffff;
+      --ink: #16232b;
+      --muted: #60717c;
+      --line: #d6e0e5;
+      --blue: #216b7e;
+      --blue-soft: #dceff4;
+      --green: #2c7a48;
+      --green-soft: #e0f0e5;
+      --amber: #9a641a;
+      --amber-soft: #f5ead9;
+      --red: #9a3444;
+      --red-soft: #f2dde1;
+      --gray: #edf1f3;
+      --shadow: 0 18px 52px rgba(22, 35, 43, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+    main {
+      width: min(1220px, 100%);
+      margin: 0 auto;
+      padding: 24px;
+    }
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 20px;
+      align-items: end;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      max-width: 880px;
+      margin-bottom: 10px;
+      font-size: clamp(34px, 5vw, 62px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin-bottom: 14px;
+      font-size: 24px;
+    }
+    h3 {
+      margin-bottom: 8px;
+      font-size: 16px;
+    }
+    a { color: var(--blue); }
+    .subtitle {
+      max-width: 860px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      min-height: 26px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .badge.public { background: var(--green-soft); color: var(--green); border-color: #bde0c8; }
+    .badge.research { background: var(--blue-soft); color: var(--blue); border-color: #b8dce5; }
+    .badge.caution { background: var(--amber-soft); color: var(--amber); border-color: #e4c999; }
+    .badge.blocked { background: var(--red-soft); color: var(--red); border-color: #e4b8c0; }
+    .meta {
+      display: grid;
+      gap: 8px;
+      min-width: 220px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .section { margin-top: 30px; }
+    .grid {
+      display: grid;
+      gap: 16px;
+    }
+    .grid.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    .grid.cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .grid.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+    }
+    .metric {
+      display: grid;
+      gap: 8px;
+      min-height: 130px;
+    }
+    .metric strong {
+      font-size: 32px;
+      line-height: 1;
+    }
+    .metric span, .small {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .progress {
+      height: 10px;
+      background: var(--gray);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress > i {
+      display: block;
+      height: 100%;
+      background: var(--blue);
+      border-radius: 999px;
+    }
+    .timeline {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .milestone {
+      min-height: 170px;
+      border-top: 5px solid var(--line);
+    }
+    .milestone.active { border-top-color: var(--blue); }
+    .milestone.future { border-top-color: #aab7bd; }
+    .map {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(180px, 1fr));
+      gap: 12px;
+      align-items: stretch;
+    }
+    .map .node {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8fafb;
+      padding: 14px;
+      min-height: 124px;
+    }
+    .kanban {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(180px, 1fr));
+      gap: 12px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+    .lane {
+      background: #eef3f5;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      min-height: 210px;
+    }
+    .ticket {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      margin-bottom: 8px;
+      min-height: 72px;
+    }
+    .ticket strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+    .table-wrap {
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+    table {
+      width: 100%;
+      min-width: 840px;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    th, td {
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+    th {
+      background: #edf3f5;
+      color: #40525b;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    tr:last-child td { border-bottom: 0; }
+    .donut {
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+    }
+    .donut svg { width: min(220px, 100%); height: auto; }
+    .notice {
+      border-left: 5px solid var(--amber);
+    }
+    @media (max-width: 960px) {
+      header, .grid.cols-4, .grid.cols-3, .grid.cols-2, .map {
+        grid-template-columns: 1fr;
+      }
+      main { padding: 16px; }
+      table { min-width: 720px; }
+    }
+  </style>
+</head>
+<body>
+  <main data-report-kind="public-dashboard">
+    <header>
+      <div>
+        <p class="badge public">Public-safe dashboard</p>
+        <h1>AI-Native Learning Organization</h1>
+        <p class="subtitle">AI時代の組織が、作業から観察を得て、学習を抽出し、次の仕事を改善するための組織論を構築する研究プログラム。</p>
+      </div>
+      <aside class="meta" aria-label="metadata">
+        <span>Repository: public dashboard</span>
+        <span>Updated: 2026-07-09</span>
+        <span>Disclosure: public-safe summary only</span>
+      </aside>
+    </header>
+
+    <section class="section grid cols-4" aria-label="summary metrics">
+      <article class="card metric">
+        <span>Research status</span>
+        <strong>Foundation</strong>
+        <div class="progress"><i style="width: 22%"></i></div>
+        <span>Concept and operating structure are being formalized.</span>
+      </article>
+      <article class="card metric">
+        <span>Public theory components</span>
+        <strong>3</strong>
+        <div class="progress"><i style="width: 35%"></i></div>
+        <span>Learning loop, memory hierarchy, doctrine-mediated governance.</span>
+      </article>
+      <article class="card metric">
+        <span>Evidence maturity</span>
+        <strong>Early</strong>
+        <div class="progress"><i style="width: 12%; background: var(--amber)"></i></div>
+        <span>Evidence collection design exists; claims are not publication-ready.</span>
+      </article>
+      <article class="card metric">
+        <span>Disclosure posture</span>
+        <strong>Strict</strong>
+        <div class="progress"><i style="width: 100%; background: var(--green)"></i></div>
+        <span>Only public-safe summaries belong here.</span>
+      </article>
+    </section>
+
+    <section class="section grid cols-2">
+      <article class="card">
+        <h2>Public Research Claim</h2>
+        <p>An AI-Native Learning Organization is an organizational model in which humans and AI systems jointly produce work, observe outcomes, extract learning, and convert that learning into reusable organizational capability.</p>
+        <p class="small">This is a research program, not a claim of completed validation.</p>
+      </article>
+      <article class="card notice">
+        <h2>Disclosure Boundary</h2>
+        <p>This public dashboard excludes raw logs, private decisions, unpublished sensitive evidence, customer data, credentials, and detailed internal blockers.</p>
+        <p class="small">When in doubt, information remains private.</p>
+      </article>
+    </section>
+
+    <section class="section" aria-label="theory map">
+      <h2>Public Theory Map</h2>
+      <div class="map">
+        <div class="node"><span class="badge research">TH-01</span><h3>Organizational Learning Loop</h3><p>Work creates observations; review extracts learning; updated artifacts improve later work.</p></div>
+        <div class="node"><span class="badge research">TH-02</span><h3>Organizational Memory Hierarchy</h3><p>Context should be retrieved by level and relevance rather than loaded as a flat history.</p></div>
+        <div class="node"><span class="badge research">TH-03</span><h3>Doctrine-Mediated Governance</h3><p>Doctrine defines judgment principles and review boundaries between humans and AI agents.</p></div>
+      </div>
+    </section>
+
+    <section class="section grid cols-2">
+      <article class="card">
+        <h2>Milestone Distribution</h2>
+        <div class="donut" role="img" aria-label="foundation phase started">
+          <svg viewBox="0 0 220 220" aria-hidden="true">
+            <circle cx="110" cy="110" r="78" fill="none" stroke="#edf1f3" stroke-width="28"></circle>
+            <circle cx="110" cy="110" r="78" fill="none" stroke="#216b7e" stroke-width="28" stroke-dasharray="109 490" stroke-linecap="round" transform="rotate(-90 110 110)"></circle>
+            <text x="110" y="104" text-anchor="middle" font-size="32" font-weight="800" fill="#16232b">22%</text>
+            <text x="110" y="130" text-anchor="middle" font-size="13" fill="#60717c">started</text>
+          </svg>
+        </div>
+      </article>
+      <article class="card">
+        <h2>What Is Publicly Visible</h2>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Area</th><th>Status</th><th>Public Interpretation</th></tr></thead>
+            <tbody>
+              <tr><td>Theory foundation</td><td><span class="badge research">in progress</span></td><td>Core terms and theory components are being structured.</td></tr>
+              <tr><td>Evidence</td><td><span class="badge caution">early</span></td><td>Evidence rules exist; validation is not complete.</td></tr>
+              <tr><td>Publication</td><td><span class="badge caution">not ready</span></td><td>The work is not yet submission-ready.</td></tr>
+              <tr><td>Public dashboard</td><td><span class="badge public">available</span></td><td>This page is safe for public orientation.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <section class="section" aria-label="public milestones">
+      <h2>Public Milestone View</h2>
+      <div class="timeline">
+        <article class="card milestone active"><span class="badge research">M0</span><h3>Research Object</h3><p class="small">Define the theory boundary and research question.</p></article>
+        <article class="card milestone active"><span class="badge research">M1</span><h3>Constructs</h3><p class="small">Define concepts, boundaries, and non-examples.</p></article>
+        <article class="card milestone future"><span class="badge">M2</span><h3>Reference Model</h3><p class="small">Model an initial organization scope.</p></article>
+        <article class="card milestone future"><span class="badge">M3-M5</span><h3>Evidence</h3><p class="small">Operationalize, run cycles, and compare evidence.</p></article>
+        <article class="card milestone future"><span class="badge">M6-M8</span><h3>Publication</h3><p class="small">Boundary testing, theory articulation, and submission package.</p></article>
+      </div>
+    </section>
+
+    <section class="section" aria-label="public kanban">
+      <h2>Public Hypothesis-Validation Kanban</h2>
+      <div class="kanban">
+        <div class="lane"><h3>Question</h3><div class="ticket"><strong>AI-native boundary</strong>What distinguishes AI-native organization from tool adoption?</div><div class="ticket"><strong>Generalization</strong>Which mechanisms can transfer across knowledge-work settings?</div></div>
+        <div class="lane"><h3>Hypothesis</h3><div class="ticket"><strong>Learning loop</strong>Reusable artifacts should improve later work.</div><div class="ticket"><strong>Memory hierarchy</strong>Layered retrieval should improve context quality.</div></div>
+        <div class="lane"><h3>Operationalize</h3><div class="ticket"><strong>Observation model</strong>Separate fact, interpretation, alternative explanation, and limitation.</div></div>
+        <div class="lane"><h3>Test</h3><div class="ticket"><strong>Pending</strong>Initial validation cycles are not public evidence yet.</div></div>
+        <div class="lane"><h3>Review</h3><div class="ticket"><strong>Strict</strong>Claims require evidence and falsification review before publication.</div></div>
+      </div>
+    </section>
+
+    <section class="section grid cols-2">
+      <article class="card">
+        <h2>Public Backlog Categories</h2>
+        <ul>
+          <li>Construct glossary and non-examples.</li>
+          <li>Observation and evidence model.</li>
+          <li>Initial learning-loop validation cycle.</li>
+          <li>Related-concept boundary map.</li>
+          <li>Publication-readiness criteria.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>Public References</h2>
+        <ul>
+          <li><a href="https://note.com/donkorokoroko/n/n7962a635dc15">HTML reporting reference</a></li>
+          <li><a href="https://claude.com/blog/using-claude-code-the-unreasonable-effectiveness-of-html">The unreasonable effectiveness of HTML</a></li>
+          <li><a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages">GitHub Pages documentation</a></li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
